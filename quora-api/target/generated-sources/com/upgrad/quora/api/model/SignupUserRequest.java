@@ -97,7 +97,6 @@ public class SignupUserRequest   {
   @ApiModelProperty(required = true, value = "Username")
   @NotNull
 
-
   public String getUserName() {
     return userName;
   }

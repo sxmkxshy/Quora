@@ -8,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+
 
 
 @Entity
@@ -23,38 +23,6 @@ public class UserEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getAboutme() {
-        return aboutme;
-    }
-
-    public void setAboutme(String aboutme) {
-        this.aboutme = aboutme;
-    }
-
-    public String getDob() {
-        return dob;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
-    }
-
     @Column(name = "UUID")
     @Size(max = 64)
     private String uuid;
@@ -68,6 +36,7 @@ public class UserEntity implements Serializable {
     private String email;
 
     @Column(name = "PASSWORD")
+    @NotNull
     private String password;
 
     @Column(name = "FIRSTNAME")
@@ -96,17 +65,14 @@ public class UserEntity implements Serializable {
     private String salt;
 
     @Column(name = "COUNTRY")
-    @NotNull
     @Size(max = 200)
     private String country;
 
     @Column(name = "ABOUTME")
-    @NotNull
     @Size(max = 200)
     private String aboutme;
 
     @Column(name = "DOB")
-    @NotNull
     @Size(max = 30)
     private String dob;
 
@@ -180,6 +146,38 @@ public class UserEntity implements Serializable {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getAboutme() {
+        return aboutme;
+    }
+
+    public void setAboutme(String aboutme) {
+        this.aboutme = aboutme;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 
     @Override

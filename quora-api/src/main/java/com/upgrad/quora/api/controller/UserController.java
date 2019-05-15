@@ -41,10 +41,10 @@ public class UserController {
             userEntity.setEmail(signupUserRequest.getEmailAddress());
             userEntity.setPassword(signupUserRequest.getPassword());
             userEntity.setMobilePhone(signupUserRequest.getContactNumber());
-            userEntity.setMobilePhone(signupUserRequest.getUserName());
-            userEntity.setMobilePhone(signupUserRequest.getDob());
-            userEntity.setMobilePhone(signupUserRequest.getCountry());
-            userEntity.setMobilePhone(signupUserRequest.getAboutMe());
+            userEntity.setUsername(signupUserRequest.getUserName());
+            userEntity.setDob(signupUserRequest.getDob());
+            userEntity.setCountry(signupUserRequest.getCountry());
+            userEntity.setAboutme(signupUserRequest.getAboutMe());
             userEntity.setSalt("1234abc");
             userEntity.setRole("nonadmin");
             final UserEntity createdUserEntity = signupBusinessService.signup(userEntity);
