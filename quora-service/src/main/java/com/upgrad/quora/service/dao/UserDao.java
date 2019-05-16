@@ -2,12 +2,16 @@ package com.upgrad.quora.service.dao;
 
 
 //import com.upgrad.quora.service.entity.UserAuthTokenEntity;
+
+import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
-//import javax.persistence.NoResultException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+
+//import javax.persistence.NoResultException;
 
 @Repository
 public class UserDao {
@@ -37,14 +41,30 @@ public class UserDao {
         }
     }
 
-   /* public UserAuthTokenEntity createAuthToken(final UserAuthTokenEntity userAuthTokenEntity) {
+    /*public UserEntity getUserByEmail(final String email) {
+        try {
+            return entityManager.createNamedQuery("userByEmail", UserEntity.class).setParameter("email", email).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }*/
+
+
+    public UserEntity getUserByUsername(final String username) {
+        try {
+            return entityManager.createNamedQuery("userByUserName", UserEntity.class).setParameter("username", username).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+    public UserAuthTokenEntity createAuthToken(final UserAuthTokenEntity userAuthTokenEntity) {
         entityManager.persist(userAuthTokenEntity);
         return userAuthTokenEntity;
     }
 
     public void updateUser(final UserEntity updatedUserEntity) {
         entityManager.merge(updatedUserEntity);
-    }*/
+    }
 
 
 }
