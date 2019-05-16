@@ -10,12 +10,12 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 //import javax.persistence.NoResultException;
 
 @Repository
 public class UserDao {
-
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -64,6 +64,18 @@ public class UserDao {
 
     public void updateUser(final UserEntity updatedUserEntity) {
         entityManager.merge(updatedUserEntity);
+    }
+
+    public UserAuthTokenEntity getUserAuthToken(final String accessToken) {
+        try {
+            return entityManager.createNamedQuery("userAuthTokenByAccessToken", UserAuthTokenEntity.class).setParameter("accessToken", accessToken).getSingleResult();
+        } catch (NoResultException nre) { return null;}
+
+    }
+
+    @Transactional
+    public void updateUserToken(final UserAuthTokenEntity updatedUserTokenEntity) {
+        entityManager.merge(updatedUserTokenEntity);
     }
 
 
