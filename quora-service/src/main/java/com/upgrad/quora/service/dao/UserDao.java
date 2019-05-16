@@ -41,13 +41,13 @@ public class UserDao {
         }
     }
 
-    /*public UserEntity getUserByEmail(final String email) {
+    public UserEntity getUser(final String uuid) {
         try {
-            return entityManager.createNamedQuery("userByEmail", UserEntity.class).setParameter("email", email).getSingleResult();
+            return entityManager.createNamedQuery("userById", UserEntity.class).setParameter("uuid", uuid).getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }
-    }*/
+    }
 
 
     public UserEntity getUserByUsername(final String username) {
