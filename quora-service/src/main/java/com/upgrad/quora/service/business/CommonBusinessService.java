@@ -32,4 +32,13 @@ public class CommonBusinessService {
          return userEntity;
     }
 
+    public UserEntity authorizeUser(final String authorizationToken) throws AuthorizationFailedException {
+        UserAuthTokenEntity userAuthTokenEntity = userDao.getUserAuthToken(authorizationToken);
+        if(userAuthTokenEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        }
+        UserEntity userEntity = userAuthTokenEntity.getUser();
+        return userEntity;
+    }
+
 }
