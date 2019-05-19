@@ -72,7 +72,7 @@ public class QuestionController {
         QuestionEntity questionEntity = questionBusinessService.getQuestionById(question_id);
         questionEntity.setContent(questionEditRequest.getContent());
         questionBusinessService.updateQuestion(signedinUser, questionEntity);
-        QuestionEditResponse questionEditResponse = new QuestionEditResponse().id(questionEntity.getUuid()).status("EDITED QUESTION");
+        QuestionEditResponse questionEditResponse = new QuestionEditResponse().id(questionEntity.getUuid()).status("QUESTION EDITED");
         return new ResponseEntity<QuestionEditResponse>(questionEditResponse, HttpStatus.OK);
     }
 

@@ -61,7 +61,7 @@ public class QuestionBusinessService {
             throw new InvalidQuestionException("QUES-001", "Entered question uuid does not exist");
         }
          UserEntity questionOwner = questionEntity.getUser();
-        if (!(questionOwner.getUuid().equals(signedinUser.getUuid()))||(signedinUser.getRole().equals("admin"))){
+        if (!(questionOwner.getUuid().equals(signedinUser.getUuid()) || signedinUser.getRole().equals("admin"))){
             throw new AuthorizationFailedException("ATHR-003", "Only the question owner or admin can delete the question");
         }
         questionDao.deleteQuestion(questionEntity);
