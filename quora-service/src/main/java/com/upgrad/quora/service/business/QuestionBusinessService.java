@@ -32,8 +32,13 @@ public class QuestionBusinessService {
     }
 
     @Transactional
-    public QuestionEntity getQuestionById(String question_id) {
-        return questionDao.getQuestionById(question_id);
+    public QuestionEntity getQuestionById(String question_id) throws InvalidQuestionException {
+
+        QuestionEntity questionEntity =questionDao.getQuestionById(question_id);
+        if(questionEntity == null){
+            throw new InvalidQuestionException("QUES-001", "Entered question uuid does not exist");
+        }
+        return questionEntity;
     }
 
 
