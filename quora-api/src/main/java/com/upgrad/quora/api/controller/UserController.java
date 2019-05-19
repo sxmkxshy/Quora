@@ -38,7 +38,8 @@ public class UserController {
     @Autowired
     private SignoutBusinessService signoutBusinessService;
 
-        @RequestMapping(method = RequestMethod.POST, path = "/usersignup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+        @RequestMapping(method = RequestMethod.POST, path = "/user/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+        //sign up new user
         public ResponseEntity<SignupUserResponse> userSignup(final SignupUserRequest signupUserRequest) throws SignUpRestrictedException {
 
             final UserEntity userEntity = new UserEntity();
@@ -55,13 +56,16 @@ public class UserController {
             userEntity.setAboutme(signupUserRequest.getAboutMe());
             userEntity.setSalt("1234abc");
             userEntity.setRole("nonadmin");
+            //validates if email address already exists
             signupBusinessService.emailValidation(signupUserRequest.getEmailAddress());
+            //validates if uname already exists
             signupBusinessService.unameValidation(signupUserRequest.getUserName());
             final UserEntity createdUserEntity = signupBusinessService.signup(userEntity);
             SignupUserResponse userResponse = new SignupUserResponse().id(createdUserEntity.getUuid()).status("USER SUCCESSFULLY REGISTERED");
             return new ResponseEntity<SignupUserResponse>(userResponse, HttpStatus.CREATED);
         }
 
+    //authenticate user's uname and password; if successful generate auth token
     @RequestMapping(method = RequestMethod.POST, path = "/user/signin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SigninResponse> login(@RequestHeader("authorization") final String authorization) throws AuthenticationFailedException {
         byte[] decode = Base64.getDecoder().decode(authorization.split("Basic ")[1]);
@@ -79,6 +83,7 @@ public class UserController {
         return new ResponseEntity<SigninResponse>(signinResponse, headers, HttpStatus.OK);
     }
 
+    //sign out user and update the log out datetime
     @RequestMapping(method = RequestMethod.POST, path = "/user/signout", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignoutResponse> logout(@RequestHeader("authorization") final String authorization) throws SignOutRestrictedException {
         String [] bearerToken = authorization.split("Bearer ");

@@ -26,6 +26,7 @@ public class SignupBusinessService {
         return userDao.createUser(userEntity);
     }
 
+    //method to validate if username already exists; throws exception if so
     public void unameValidation(String username) throws SignUpRestrictedException {
         UserEntity userEntity = userDao.userNameValidation(username);
         if (userEntity != null) {
@@ -33,6 +34,7 @@ public class SignupBusinessService {
         }
     }
 
+    //method to validate if email already exists; throws exception if so
     public void emailValidation(String email) throws SignUpRestrictedException {
         UserEntity userEntity = userDao.emailValidation(email);
         if (userEntity != null) {

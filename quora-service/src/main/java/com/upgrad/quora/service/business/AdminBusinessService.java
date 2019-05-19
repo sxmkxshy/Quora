@@ -21,10 +21,12 @@ public class AdminBusinessService {
 
         UserAuthTokenEntity userAuthTokenEntity = userDao.getUserAuthToken(authorizationToken);
 
+        //check if the user is signed-in
         if(userAuthTokenEntity == null) {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
         }
         System.out.println(userAuthTokenEntity.getUser().getRole());
+        //checks if the signed in user is an admin or not
         if(!(userAuthTokenEntity.getUser().getRole().equals("admin"))) {
             throw new AuthorizationFailedException("ATHR-003", "Unauthorized Access, Entered user is not an admin");
         }

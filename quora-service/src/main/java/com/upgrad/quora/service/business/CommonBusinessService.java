@@ -21,10 +21,12 @@ public class CommonBusinessService {
             AuthorizationFailedException {
 
 
+        //checks if the user exists in the database or not
         UserEntity userEntity = userDao.getUser(userUuid);
             if (userEntity == null) {
                 throw new UserNotFoundException("USR-001", "User with entered uuid does not exist");
             }
+         //checks if the user is signed in with a valid token
         UserAuthTokenEntity userAuthTokenEntity = userDao.getUserAuthToken(authorizationToken);
             if(userAuthTokenEntity == null) {
                 throw new AuthorizationFailedException("ATHR-001", "User has not signed in");

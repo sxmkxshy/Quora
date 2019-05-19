@@ -71,6 +71,7 @@ public class QuestionController {
         UserEntity signedinUser = commonBusinessService.authorizeUser(bearerToken[1]);
         QuestionEntity questionEntity = questionBusinessService.getQuestionById(question_id);
         questionEntity.setContent(questionEditRequest.getContent());
+        //check if the user is authorized to edit a question before allowing to do so
         questionBusinessService.updateQuestion(signedinUser, questionEntity);
         QuestionEditResponse questionEditResponse = new QuestionEditResponse().id(questionEntity.getUuid()).status("QUESTION EDITED");
         return new ResponseEntity<QuestionEditResponse>(questionEditResponse, HttpStatus.OK);
@@ -79,18 +80,22 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.DELETE, path = "/question/delete/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionDeleteResponse> deleteQuestion(@PathVariable("questionId") final String question_id, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
         String[] bearerToken = authorization.split("Bearer ");
+        //check if the user is signed in
         UserEntity signedinUser = commonBusinessService.authorizeUser(bearerToken[1]);
         QuestionEntity questionEntity = questionBusinessService.getQuestionById(question_id);
+
+        //checks if the user is authorized to delete a question before allowing him to do so
         questionBusinessService.deleteQuestion(signedinUser, questionEntity);
         QuestionDeleteResponse questionDeleteResponse = new QuestionDeleteResponse().id(questionEntity.getUuid()).status("QUESTION DELETED");
         return new ResponseEntity<QuestionDeleteResponse>(questionDeleteResponse, HttpStatus.OK);
     }
 
+   // get all the questions posted by a given user in the json request
     @RequestMapping(method = RequestMethod.GET, path = "question/all/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<QuestionDetailsResponse>> getQuestionsByUser(@PathVariable("userId")final String userId,@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, UserNotFoundException {
         String[] bearerToken = authorization.split("Bearer ");
         UserEntity userEntity = commonBusinessService.getUser(userId,bearerToken[1]);
-      Long user_id =userEntity.getId();
+        Long user_id =userEntity.getId();
         Iterator<QuestionEntity> itrQuestions = questionBusinessService.getQuestionsByUser(userEntity).iterator();
         List<QuestionDetailsResponse> questionResponseList = new ArrayList<QuestionDetailsResponse>();
         while (itrQuestions.hasNext()) {

@@ -57,6 +57,7 @@ public class AnswerController {
         UserEntity signedinUser = commonBusinessService.authorizeUser(bearerToken[1]);
         AnswerEntity answerEntity = answerBusinessService.getAnswerById(answer_id);
         answerEntity.setAns(answerEditRequest.getContent());
+        //checks if the user is authorized to edit an answer before allowing him to do so
         answerBusinessService.updateAnswer(signedinUser, answerEntity);
         AnswerEditResponse answerEditResponse = new AnswerEditResponse().id(answerEntity.getUuid()).status("ANSWER EDITED");
         return new ResponseEntity<AnswerEditResponse>(answerEditResponse, HttpStatus.OK);
@@ -68,6 +69,7 @@ public class AnswerController {
         String[] bearerToken = authorization.split("Bearer ");
         UserEntity signedinUser = commonBusinessService.authorizeUser(bearerToken[1]);
         AnswerEntity answerEntity = answerBusinessService.getAnswerById(answer_id);
+        //checks if the user is authorized to delete an answer before allowing him to do so
         answerBusinessService.deleteAnswer(signedinUser, answerEntity);
         AnswerDeleteResponse answerDeleteResponse = new AnswerDeleteResponse().id(answerEntity.getUuid()).status("ANSWER DELETED");
         return new ResponseEntity<AnswerDeleteResponse>(answerDeleteResponse, HttpStatus.OK);
